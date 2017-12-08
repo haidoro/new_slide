@@ -11,8 +11,10 @@ img{
 .outer {
     position: relative;
     width: 100%;
+    max-width:980px;
     margin:auto;
-    background:#ccc;
+    background:#fff;
+    overflow:hidden;
     
 }
 .outer:before {
@@ -20,23 +22,17 @@ img{
     display: block;
     padding-top: 67%; /* 高さを幅の67%に固定 */
 }
-#slider {
+#slide {
     position: absolute;
     top: 0px;
     left: 0px;
     bottom: 0px;
     right: 0px;
+    width:100%;
     text-align: center;
     overflow: hidden;
 }
 
-#slide img {
-	position:absolute;
-	left:0;
-	top:0;
-	bottom:0;
-	right:0;
-}
 	</style>
 </head>
 <body>
@@ -60,12 +56,34 @@ $(function(){
     var timerId = setInterval(opa,switchDelay);
     //自動スライドの制御
     //マウスを動かした時だけ動くパターン
-    $("#slide").on('mousemove', function(){
+    $("#slide").on('mouseover', function(){
+        $(this).one('mousemove', function(){
+            timerId = setInterval(opa,switchDelay);          
+        })
         clearInterval(timerId);
-        timerId = setInterval(opa,switchDelay);
     }).on('mouseout', function(){
         clearInterval(timerId);
+        timerId = setInterval(opa,switchDelay);
     })
+
+    //slide位置調整
+    var imgHeigt = $("#slide img").offset().top + $("#slide img").height();
+    var timer = 0;
+    window.onresize = function () {
+      if (timer > 0) {
+        clearTimeout(timer);
+      }
+     
+      timer = setTimeout(function () {
+        var windowHeight = $(window).height();
+        if(windowHeight < imgHeigt){
+           $("#slide").css('top',0);
+           $("#slide").css('top',-1*(windowHeight/2) + 'px'); 
+        }else{
+            $("#slide").css('top',0);
+        }
+      }, 100);
+    };
 });
 </script>
 </body>

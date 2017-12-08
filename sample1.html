@@ -10,9 +10,9 @@ img{
 }
 .outer {
     position: relative;
-    width: 60%;
+    width: 100%;
     margin:auto;
-    background:#ccc;
+    background:#fff;
     
 }
 .outer:before {
@@ -20,7 +20,7 @@ img{
     display: block;
     padding-top: 67%; /* 高さを幅の67%に固定 */
 }
-#slider {
+#slide{
     position: absolute;
     top: 0px;
     left: 0px;
@@ -28,14 +28,6 @@ img{
     right: 0px;
     text-align: center;
     overflow: hidden;
-}
-
-#slide img {
-	position:absolute;
-	left:0;
-	top:0;
-	bottom:0;
-	right:0;
 }
 	</style>
 </head>
@@ -60,10 +52,7 @@ $(function(){
     var timerId = setInterval(opa,switchDelay);
     //自動スライドの制御
     $("#slide").hover(function(){
-            clearInterval(timerId);
-        $(this).mousemove(function(){
-            timerId = setInterval(opa,switchDelay); 
-        })      
+            clearInterval(timerId);     
     },function(){
         timerId = setInterval(opa,switchDelay);     
     });

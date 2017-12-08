@@ -12,7 +12,7 @@ img{
     position: relative;
     width: 100%;
     margin:auto;
-    background:#ccc;
+    background:#fff;
     
 }
 .outer:before {
@@ -20,7 +20,7 @@ img{
     display: block;
     padding-top: 67%; /* 高さを幅の67%に固定 */
 }
-#slider {
+#slide {
     position: absolute;
     top: 0px;
     left: 0px;
@@ -30,13 +30,6 @@ img{
     overflow: hidden;
 }
 
-#slide img {
-	position:absolute;
-	left:0;
-	top:0;
-	bottom:0;
-	right:0;
-}
 	</style>
 </head>
 <body>
@@ -59,11 +52,14 @@ $(function(){
     $('#slide img:not(:first-child)').css('opacity',0);
     var timerId = setInterval(opa,switchDelay);
     //自動スライドの制御
-    $("#slide").hover(function(){
-            clearInterval(timerId);     
-    },function(){
-        timerId = setInterval(opa,switchDelay);     
-    });
+    //マウスを動かした時だけ止まるパターン
+    $("#slide").on('mousemove', function(){
+        clearInterval(timerId);
+        timerId = setInterval(opa,switchDelay);
+    }).on('mouseout', function(){
+        clearInterval(timerId);
+        timerId = setInterval(opa,switchDelay);
+    })
 });
 </script>
 </body>
