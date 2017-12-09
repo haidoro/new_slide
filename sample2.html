@@ -60,6 +60,25 @@ $(function(){
         clearInterval(timerId);
         timerId = setInterval(opa,switchDelay);
     })
+       //slide位置調整
+    var imgHeight = $("#slide img").height();
+    var slideHeigt = $("#slide img").offset().top + imgHeight;
+    var timer = 0;
+    window.onresize = function () {
+      if (timer > 0) {
+        clearTimeout(timer);
+      }
+     
+      timer = setTimeout(function () {
+        var windowHeight = $(window).height();
+        if(windowHeight < slideHeigt){
+           $("#slide").css('top',0);
+           $("#slide").css('top',(windowHeight-imgHeight) + 'px'); 
+        }else{
+            $("#slide").css('top',0);
+        }
+      }, 100);
+    };
 });
 </script>
 </body>
