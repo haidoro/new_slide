@@ -2,6 +2,7 @@
 <html lang="ja">
 <head>
 	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Document</title>
 	<style>
 img{
@@ -70,7 +71,7 @@ $(function(){
         $(this).one('mousemove', function(e){
             if(e.pageX != '' && e.pageX != ''){
                 clearInterval(timerId);
-            timerId = setInterval(opa,switchDelay);
+                timerId = setInterval(opa,switchDelay);
             }else{
                 clearInterval(timerId);
             }          
@@ -79,6 +80,16 @@ $(function(){
         clearInterval(timerId);
         timerId = setInterval(opa,switchDelay);
     })
+    //モバイルイベント
+    $("#slide").on("touchstart",function(){
+        clearInterval(timerId);
+    }).one("touchmove",function(){
+        clearInterval(timerId);
+        timerId = setInterval(opa,switchDelay);       
+    }).on("touchend",function(){
+        clearInterval(timerId);
+        timerId = setInterval(opa,switchDelay); 
+    });
 
     //slide位置調整
     var timer = 0;
