@@ -13,7 +13,7 @@ img{
     width: 100%;
     max-width:1300px;
     margin:auto;
-    background:#fff;
+    background:#ccc;
     overflow:hidden;
     
 }
@@ -48,7 +48,7 @@ img{
 <script>
 $(function(){
     var imgHeight = $("#slide img").height();
-    var slideHeigt = $("#slide img").offset().top + imgHeight;
+    var slideHeigt = $("#slide").height();
     var fadeSpeed = 1500;
     var switchDelay = 3000;
     var opa=function(){
@@ -70,17 +70,18 @@ $(function(){
 
     //slide位置調整
     var timer = 0;
-    var windowHeightResize = $(window).height();
+    var windowHeight = $(window).height();
+    var windowHeightResize = windowHeight;
     window.onresize = function () {
       if (timer > 0) {
         clearTimeout(timer);
       }
-     
       timer = setTimeout(function () {
-        var windowHeight = $(window).height();
-        if(windowHeight < slideHeigt && windowHeightResize!=windowHeight){
+        slideHeigt = $("#slide").height();
+        windowHeight = $(window).height();
+        if(imgHeight > windowHeight && windowHeightResize!= windowHeight){
            $("#slide").css('top',0);
-           $("#slide").css('top',(windowHeight-imgHeight) + 'px'); 
+           $("#slide").css('top',(windowHeight-imgHeight)/2 + 'px'); 
         }else{
             $("#slide").css('top',0);
         }
