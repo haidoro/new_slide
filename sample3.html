@@ -10,8 +10,7 @@ img{
 }
 .outer {
     position: relative;
-    width: 100%;
-    max-width:1300px;
+    max-width:1300px;/* 好きなサイズで固定 */
     margin:auto;
     background:#fff;
     overflow:hidden;
@@ -31,6 +30,14 @@ img{
     width:100%;
     text-align: center;
     overflow: hidden;
+}
+#slide img {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    width:100%;
 }
 
 	</style>
@@ -59,10 +66,15 @@ $(function(){
     //自動スライドの制御
     //マウスを動かした時だけ動くパターン
     $("#slide").on('mouseover', function(){
-        $(this).one('mousemove', function(){
-            timerId = setInterval(opa,switchDelay);          
-        })
         clearInterval(timerId);
+        $(this).one('mousemove', function(e){
+            if(e.pageX != '' && e.pageX != ''){
+                clearInterval(timerId);
+            timerId = setInterval(opa,switchDelay);
+            }else{
+                clearInterval(timerId);
+            }          
+        })
     }).on('mouseout', function(){
         clearInterval(timerId);
         timerId = setInterval(opa,switchDelay);
