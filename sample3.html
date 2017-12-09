@@ -77,6 +77,7 @@ $(function(){
         clearTimeout(timer);
       }
       timer = setTimeout(function () {
+        imgHeight = $("#slide img").height();
         slideHeigt = $("#slide").height();
         windowHeight = $(window).height();
         if(imgHeight > windowHeight && windowHeightResize!= windowHeight){
@@ -85,8 +86,8 @@ $(function(){
         }else{
             $("#slide").css('top',0);
         }
+        windowHeightResize = windowHeight;
       }, 100);
-      windowHeightResize = windowHeight;
     };
 });
 </script>
