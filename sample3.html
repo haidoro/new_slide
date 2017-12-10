@@ -56,7 +56,8 @@ img{
 <script>
 $(function(){
     var imgHeight = $("#slide img").height();
-    var slideHeigt = $("#slide").height();
+    var slide = $("#slide");
+    var slideHeigt = slide.height();
     var fadeSpeed = 1500;
     var switchDelay = 3000;
     var opa=function(){
@@ -66,7 +67,7 @@ $(function(){
     var timerId = setInterval(opa,switchDelay);
     //自動スライドの制御
     //マウスを動かした時だけ動くパターン
-    $("#slide").on('mouseover', function(){
+    slide.on('mouseover', function(){
         clearInterval(timerId);
         $(this).one('mousemove', function(e){
                 clearInterval(timerId);
@@ -77,7 +78,7 @@ $(function(){
         timerId = setInterval(opa,switchDelay);
     })
     //モバイルイベント
-    $("#slide").on("touchstart",function(){
+    slide.on("touchstart",function(){
         clearInterval(timerId);
     }).one("touchmove",function(){
         clearInterval(timerId);
@@ -97,13 +98,13 @@ $(function(){
       }
       timer = setTimeout(function () {
         imgHeight = $("#slide img").height();
-        slideHeigt = $("#slide").height();
+        slideHeigt = slide.height();
         windowHeight = $(window).height();
         if(imgHeight > windowHeight && windowHeightResize!= windowHeight){
-           $("#slide").css('top',0);
-           $("#slide").css('top',(windowHeight-imgHeight)/2 + 'px'); 
+           slide.css('top',0);
+           slide.css('top',(windowHeight-imgHeight)/2 + 'px'); 
         }else{
-            $("#slide").css('top',0);
+            slide.css('top',0);
         }
         windowHeightResize = windowHeight;
       }, 100);
