@@ -69,12 +69,8 @@ $(function(){
     $("#slide").on('mouseover', function(){
         clearInterval(timerId);
         $(this).one('mousemove', function(e){
-            if(e.pageX != '' && e.pageX != ''){
                 clearInterval(timerId);
-                timerId = setInterval(opa,switchDelay);
-            }else{
-                clearInterval(timerId);
-            }          
+                timerId = setInterval(opa,switchDelay);         
         })
     }).on('mouseout', function(){
         clearInterval(timerId);
