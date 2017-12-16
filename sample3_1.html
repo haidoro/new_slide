@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+img{
+    width:100%;
+    height:auto;
+}
+.outer {
+    position: relative;
+    max-width:1300px;/* 好きなサイズで固定 */
+    margin:auto;
+    background:#fff;
+    overflow:hidden;
+    
+}
+.outer:before {
+    content:"";
+    display: block;
+    padding-top: 67%; /* 高さを幅の67%に固定 */
+}
+#slide {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    width:100%;
+    text-align: center;
+    overflow: hidden;
+}
+#slide img {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    width:100%;
+}
+
+	</style>
+</head>
+<body>
+    <p class="bool">判定</p>
+<div class="outer">
+	<div id="slide">
+        <img src="images/img1.jpg" alt="#">
+        <img src="images/img2.jpg" alt="#">
+        <img src="images/img3.jpg" alt="#">
+        <img src="images/img4.jpg" alt="#">
+    </div>
+ </div>   
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+$(function(){
+    var imgHeight = $("#slide img").height();
+    var slide = $("#slide");
+    var slideHeigt = slide.height();
+    var fadeSpeed = 1000;
+    var switchDelay = 2000;
+    var count = 0;
+    var x;
+    var y;
+    var tId = 0;
+    var opa=function(){
+        $('#slide img:first-child').animate({opacity:'0'},fadeSpeed).next('img').animate({opacity:'1'},fadeSpeed).end().appendTo('#slide');
+    }
+    $('#slide img:not(:first-child)').css('opacity',0);
+    var timerId = setInterval(opa,switchDelay);
+    console.log('外'+timerId);
+    //自動スライドの制御
+    //マウスを動かした時だけ動くパターン
+    slide.hover(function(){
+        clearInterval(timerId);
+        $(this).on('mousemove', function(e){   
+        clearTimeout(tId);
+        x=e.pageX;
+        y=e.pageY;
+        
+        if(count < 1){
+            clearInterval(timerId);
+
+            timerId = setInterval(opa,switchDelay);
+            console.log('内'+timerId);
+            $('.bool').text('マウス判定：move');
+            count++;
+        }
+        tId = setTimeout(function(){
+        if(x==e.pageX || y==e.pageY){
+                clearInterval(timerId);
+                $('.bool').text('マウス判定：stop');
+                count = 0;    
+        }           
+        }, 100)
+    })
+       },function(){ 
+        tId = setTimeout(function(){
+        timerId = setInterval(opa,switchDelay);
+        $('.bool').text('マウス判定：move2');
+         }, 100)      
+    })      
+        
+    //モバイルイベント
+    slide.on("touchstart",function(){
+        clearInterval(timerId);
+    }).one("touchmove",function(){
+        clearInterval(timerId);
+        timerId = setInterval(opa,switchDelay);       
+    }).on("touchend",function(){
+        clearInterval(timerId);
+        timerId = setInterval(opa,switchDelay); 
+    });
+
+    //slide位置調整
+    var timer = 0;
+    var windowHeight = $(window).height();
+    var windowHeightResize = windowHeight;
+    window.onresize = function () {
+      if (timer > 0) {
+        clearTimeout(timer);
+      }
+      timer = setTimeout(function () {
+        imgHeight = $("#slide img").height();
+        slideHeigt = slide.height();
+        windowHeight = $(window).height();
+        if(imgHeight > windowHeight && windowHeightResize!= windowHeight){
+           slide.css('top',0);
+           slide.css('top',(windowHeight-imgHeight)/2 + 'px'); 
+        }else{
+            slide.css('top',0);
+        }
+        windowHeightResize = windowHeight;
+      }, 100);
+    };
+});
+</script>
+</body>
+</html>
