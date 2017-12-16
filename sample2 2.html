@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+img{
+    width:100%;
+    height:auto;
+}
+.outer {
+    position: relative;
+    width: 100%;
+    margin:auto;
+    background:#fff;
+    
+}
+.outer:before {
+    content:"";
+    display: block;
+    padding-top: 67%; /* 高さを幅の67%に固定 */
+}
+#slide {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    text-align: center;
+    overflow: hidden;
+}
+#slide img {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    width:100%;
+}
+	</style>
+</head>
+<body>
+<div class="outer">
+	<div id="slide">
+        <img src="images/img1.jpg" alt="#">
+        <img src="images/img2.jpg" alt="#">
+        <img src="images/img3.jpg" alt="#">
+        <img src="images/img4.jpg" alt="#">
+    </div>
+ </div>   
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+$(function(){
+    var fadeSpeed = 1500;
+    var switchDelay = 3000;
+    var opa=function(){
+        $('#slide img:first-child').animate({opacity:'0'},fadeSpeed).next('img').animate({opacity:'1'},fadeSpeed).end().appendTo('#slide');
+    }
+    $('#slide img:not(:first-child)').css('opacity',0);
+    var timerId = setInterval(opa,switchDelay);
+    //自動スライドの制御
+    //マウスを動かした時だけ止まるパターン
+    $("#slide").one('mousemove', function(){
+        timerId = setInterval(opa,switchDelay);
+    }).on('mouseover', function(){
+        clearInterval(timerId)
+    }).on('mouseout', function(){
+        clearInterval(timerId);
+        timerId = setInterval(opa,switchDelay);
+    })
+       //slide位置調整
+    var imgHeight = $("#slide img").height();
+    var slideHeigt = $("#slide img").offset().top + imgHeight;
+    var timer = 0;
+    window.onresize = function () {
+      if (timer > 0) {
+        clearTimeout(timer);
+      }
+     
+      timer = setTimeout(function () {
+        var windowHeight = $(window).height();
+        if(windowHeight < slideHeigt){
+           $("#slide").css('top',0);
+           $("#slide").css('top',(windowHeight-imgHeight) + 'px'); 
+        }else{
+            $("#slide").css('top',0);
+        }
+      }, 100);
+    };
+});
+</script>
+</body>
+</html>
