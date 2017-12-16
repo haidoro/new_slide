@@ -12,6 +12,7 @@ img{
 .outer {
     position: relative;
     max-width:1300px;/* 好きなサイズで固定 */
+    min-height:380px;/* 好きなサイズで最小値固定 */
     margin:auto;
     background:#fff;
     overflow:hidden;
@@ -59,8 +60,8 @@ $(function(){
     var imgHeight = $("#slide img").height();
     var slide = $("#slide");
     var slideHeigt = slide.height();
-    var fadeSpeed = 1500;
-    var switchDelay = 3000;
+    var fadeSpeed = 1000;
+    var switchDelay = 2000;
     var count = 0;
     var x;
     var y;
@@ -73,9 +74,9 @@ $(function(){
     console.log('外'+timerId);
     //自動スライドの制御
     //マウスを動かした時だけ動くパターン
-    slide.hover(function(){
-        $(this).on('mousemove', function(e){ 
-        
+ 
+        //clearInterval(timerId);
+        slide.on('mousemove', function(e){   
         clearTimeout(tId);
         x=e.pageX;
         y=e.pageY;
@@ -84,7 +85,7 @@ $(function(){
             clearInterval(timerId);
 
             timerId = setInterval(opa,switchDelay);
-console.log('内'+timerId);
+            console.log('内'+timerId);
             $('.bool').text('マウス判定：move');
             count++;
         }
@@ -96,10 +97,12 @@ console.log('内'+timerId);
         }           
         }, 100)
     })
-       },function(){     
+    slide.on('mouseout',function(){ 
+        tId = setTimeout(function(){
         timerId = setInterval(opa,switchDelay);
+        $('.bool').text('マウス判定：move2');
+         }, 100)      
     })      
-    
         
     //モバイルイベント
     slide.on("touchstart",function(){
