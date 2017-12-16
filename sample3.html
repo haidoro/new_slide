@@ -44,6 +44,7 @@ img{
 	</style>
 </head>
 <body>
+    <p class="bool">判定</p>
 <div class="outer">
 	<div id="slide">
         <img src="images/img1.jpg" alt="#">
@@ -60,23 +61,46 @@ $(function(){
     var slideHeigt = slide.height();
     var fadeSpeed = 1500;
     var switchDelay = 3000;
+    var count = 0;
+    var x;
+    var y;
+    var tId = 0;
     var opa=function(){
         $('#slide img:first-child').animate({opacity:'0'},fadeSpeed).next('img').animate({opacity:'1'},fadeSpeed).end().appendTo('#slide');
     }
     $('#slide img:not(:first-child)').css('opacity',0);
     var timerId = setInterval(opa,switchDelay);
+    console.log('外'+timerId);
     //自動スライドの制御
     //マウスを動かした時だけ動くパターン
-    slide.on('mouseover', function(){
-        clearInterval(timerId);
-        $(this).one('mousemove', function(e){
+    slide.hover(function(){
+        $(this).on('mousemove', function(e){ 
+        
+        clearTimeout(tId);
+        x=e.pageX;
+        y=e.pageY;
+        
+        if(count < 1){
+            clearInterval(timerId);
+
+            timerId = setInterval(opa,switchDelay);
+console.log('内'+timerId);
+            $('.bool').text('マウス判定：move');
+            count++;
+        }
+        tId = setTimeout(function(){
+        if(x==e.pageX || y==e.pageY){
                 clearInterval(timerId);
-                timerId = setInterval(opa,switchDelay);         
-        })
-    }).on('mouseout', function(){
-        clearInterval(timerId);
-        timerId = setInterval(opa,switchDelay);
+                $('.bool').text('マウス判定：stop');
+                count = 0;    
+        }           
+        }, 100)
     })
+       },function(){     
+        timerId = setInterval(opa,switchDelay);
+    })      
+    
+        
     //モバイルイベント
     slide.on("touchstart",function(){
         clearInterval(timerId);
