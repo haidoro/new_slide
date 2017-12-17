@@ -12,7 +12,6 @@ img{
 .outer {
     position: relative;
     max-width:1300px;/* 好きなサイズで固定 */
-    min-height:380px;/* 好きなサイズで最小値固定 */
     margin:auto;
     background:#fff;
     overflow:hidden;
@@ -76,6 +75,21 @@ $(function(){
     //スライドショー自動切り替え
     var timerId = setInterval(opa,switchDelay);
     console.log('外'+timerId);//test表示
+
+     if ((navigator.userAgent.indexOf('iPhone') > 0 && navigator.userAgent.indexOf('iPad') == -1) || navigator.userAgent.indexOf('iPod') > 0 || navigator.userAgent.indexOf('Android') > 0) {
+    // モバイル用
+           //モバイルイベント
+        slide.on("touchstart",function(){
+            clearInterval(timerId);
+        }).one("touchmove",function(){
+            clearInterval(timerId);
+            timerId = setInterval(opa,switchDelay);       
+        }).on("touchend",function(){
+            clearInterval(timerId);
+            timerId = setInterval(opa,switchDelay); 
+        });
+    } else {
+    //PC用
 
     //マウスを動かした時の挙動パターン
     slide.on('mouseover',function(){
@@ -142,6 +156,7 @@ $(function(){
         windowHeightResize = windowHeight;
       }, 100);
     };
+}
 });
 </script>
 </body>
