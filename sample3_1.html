@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
+	<title>テストページ</title>
 	<style>
 img{
     width:100%;
@@ -45,6 +45,7 @@ img{
 	</style>
 </head>
 <body>
+    <p class="bool">判定</p>
 <div class="outer">
 	<div id="slide">
         <img src="images/img1.jpg" alt="#">
@@ -52,18 +53,15 @@ img{
         <img src="images/img3.jpg" alt="#">
         <img src="images/img4.jpg" alt="#">
     </div>
- </div>
- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique inventore assumenda, aspernatur veniam voluptas quo dolorum magnam ducimus. Facere velit perferendis natus odit, quisquam, repudiandae necessitatibus omnis placeat minus laudantium.</p>
- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique inventore assumenda, aspernatur veniam voluptas quo dolorum magnam ducimus. Facere velit perferendis natus odit, quisquam, repudiandae necessitatibus omnis placeat minus laudantium.</p>
- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique inventore assumenda, aspernatur veniam voluptas quo dolorum magnam ducimus. Facere velit perferendis natus odit, quisquam, repudiandae necessitatibus omnis placeat minus laudantium.</p>  
+ </div>   
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script>
 $(function(){
     var imgHeight = $("#slide img").height();
     var slide = $("#slide");
     var slideHeigt = slide.height();
-    var fadeSpeed = 1000;//フェードスピード
-    var switchDelay = 2000;//画像切り替えスピード
+    var fadeSpeed = 1000;
+    var switchDelay = 2000;
     var count = 0;
     var x;
     var y;
@@ -77,6 +75,7 @@ $(function(){
     $('#slide img:not(:first-child)').css('opacity',0);
     //スライドショー自動切り替え
     var timerId = setInterval(opa,switchDelay);
+    console.log('外'+timerId);//test表示
 
     //マウスを動かした時の挙動パターン
     slide.on('mouseover',function(){
@@ -87,12 +86,16 @@ $(function(){
             
             if(count < 1){
                 clearInterval(timerId);
+
                 timerId = setInterval(opa,switchDelay);
+                console.log('内'+timerId);
+                $('.bool').text('マウス判定：move');
                 count++;
             }
             tId = setTimeout(function(){
                 if(x==e.pageX || y==e.pageY){
                     clearInterval(timerId);
+                    $('.bool').text('マウス判定：stop');
                     count = 0;    
                 }           
             }, 100)
@@ -103,6 +106,7 @@ $(function(){
         tId = setTimeout(function(){
         clearInterval(timerId);
         timerId = setInterval(opa,switchDelay);
+        $('.bool').text('マウス判定：move2');
         }, 100)     
     })      
         
